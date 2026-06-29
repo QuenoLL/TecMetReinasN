@@ -8,11 +8,24 @@ import java.util.List;
 
 public class App {
 	public static void main(String[] args) {
-		int n = 4;
-		List<int[]> soluciones = new ArrayList<int[]>();
-		Estado e = new Estado(new int[n], -1, 0, n, soluciones);
-		funcion(e);
-		System.out.println("Total de soluciones encontradas: " + soluciones.size());
+		//añadir n filas y n columnas
+		System.out.print("> Ingrese las filas y columnas para calcular las NxN Reinas ");
+		System.out.println("");
+		Scanner sc = new Scanner(System.in);
+		int n = sc.nextInt();
+		sc.nextLine();
+		//si n es mayor que 0, lo calcula
+		if (n > 0) {
+			List<int[]> soluciones = new ArrayList<int[]>();
+			Estado e = new Estado(new int[n], -1, 0, n, soluciones);
+			funcion(e);
+			System.out.println("Total de soluciones encontradas: " + soluciones.size());
+		}
+		//si n es negativo o cero
+		else {
+			System.out.println("No Existe Las Filas por Columnas Negativas o cero");
+			System.out.println("Cerrando el Programa");
+		}
 	}
 	
 	private static void funcion(Estado estado) {
@@ -83,13 +96,27 @@ public class App {
 		return estado.contadorReinas == estado.n;//Deberia ser el estadoObjetivo si es que ya pusimos las n reinas en el tablero
 	}
 
-	public static class Estado{
-		int[] matrizN; // Por que int[] solo puede haber una reina por columna asi que mejor procesar asi la matriz.
+	private static void imprimirTablero(Estado estado) {
+		System.out.println("--- Solución Encontrada ---");
+		for (int i = 0; i < estado.n; i++) {
+			for (int j = 0; j < estado.n; j++) {
+				if (estado.matrizN[i] == j) {
+					System.out.print(" Q "); // Q de Queen (Reina)
+				} else {
+					System.out.print(" . "); // Casilla vacía
+				}
+			}
+			System.out.println();
+		}
+		System.out.println();
+	}
+
+	public static class Estado {
+		int[] matrizN;
 		int actualF;
 		int contadorReinas;
 		int n;
 		List<int[]> soluciones;
-		
 		public Estado(int[] matrizN, int actualF, int contadorReinas, int n, List<int[]> soluciones) {
 			this.matrizN = matrizN;
 			this.actualF = actualF;
@@ -97,7 +124,5 @@ public class App {
 			this.n = n;
 			this.soluciones = soluciones;
 		}
-		
 	}
-
 }
